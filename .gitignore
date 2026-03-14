@@ -29,6 +29,7 @@ yarn-error.log*
 
 # vercel
 .vercel
+*.vercel
 
 # typescript
 *.tsbuildinfo
@@ -40,3 +41,4 @@ source_of_landingpage/
 # original HTML (keep assets/ for reference but exclude original)
 index.html
 assets/
+.vercel
