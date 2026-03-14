@@ -1,0 +1,301 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ─── */
+@theme {
+  --color-gold: #C8A04A;
+  --color-gold-light: #D4AF5E;
+  --color-gold-bright: #E8C86A;
+  --color-dark: #0A0A0A;
+  --color-elevated: #141414;
+  --color-divider: #1F1F1F;
+  --color-muted: #A3A3A3;
+
+  --font-bebas: var(--font-bebas-var);
+  --font-noto: var(--font-noto-var);
+  --font-barlow: var(--font-barlow-var);
+}
+
+/* ─── Base ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #000;
+  color: #fff;
+  font-family: var(--font-noto-var), 'Noto Sans KR', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Gold Effects ─── */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #C8A04A 0%, #E8C86A 50%, #C8A04A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gold-line {
+  height: 1px;
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+}
+
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* ─── Scroll Reveal ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+.reveal-d5 { transition-delay: 0.5s; }
+
+/* ─── Navbar ─── */
+#navbar {
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+#navbar.scrolled {
+  background: rgba(0, 0, 0, 0.92) !important;
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--color-divider);
+}
+
+/* ─── Mobile Menu ─── */
+#mobile-menu {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+}
+#mobile-menu.open {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+/* ─── Scroll Indicator ─── */
+@keyframes bounce-down {
+  0%, 100% { transform: translateY(0) translateX(-50%); opacity: 0.8; }
+  50% { transform: translateY(10px) translateX(-50%); opacity: 1; }
+}
+.scroll-indicator {
+  animation: bounce-down 2.2s ease-in-out infinite;
+}
+
+/* ─── Buttons ─── */
+.btn-gold {
+  background: linear-gradient(135deg, #C8A04A, #D8B860);
+  color: #000;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.btn-gold:hover {
+  background: linear-gradient(135deg, #D4AF5E, #E4C870);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(200, 160, 74, 0.45);
+}
+.btn-gold:active {
+  transform: translateY(0);
+}
+
+.btn-outline-gold {
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+.btn-outline-gold:hover {
+  background: var(--color-gold);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+/* ─── Cards ─── */
+.card-dark {
+  background: #0A0A0A;
+  border: 1px solid var(--color-divider);
+}
+
+.trainer-card {
+  background: #0A0A0A;
+  border: 1px solid var(--color-divider);
+  cursor: pointer;
+  transition: border-color 0.3s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.trainer-card:hover {
+  border-color: rgba(200, 160, 74, 0.6);
+  transform: translateY(-6px);
+}
+.trainer-card .photo-wrap {
+  overflow: hidden;
+}
+.trainer-card img,
+.trainer-card .photo-img {
+  transition: transform 0.6s ease, filter 0.3s ease;
+  display: block;
+  width: 100%;
+}
+.trainer-card:hover .photo-img {
+  transform: scale(1.04);
+  filter: brightness(1.06);
+}
+
+/* ─── Accordion ─── */
+.accordion-toggle {
+  cursor: pointer;
+}
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.accordion-content.open {
+  max-height: 600px;
+}
+.accordion-icon {
+  transition: transform 0.3s ease;
+}
+.accordion-icon.open {
+  transform: rotate(180deg);
+}
+
+/* ─── Transformation ─── */
+.transform-card {
+  background: #0A0A0A;
+  border: 1px solid var(--color-divider);
+  transition: border-color 0.3s ease;
+}
+.transform-card:hover {
+  border-color: rgba(200, 160, 74, 0.4);
+}
+
+.photo-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 4px 0 6px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  text-align: center;
+  font-family: var(--font-barlow-var), 'Barlow', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* ─── Member Gallery ─── */
+.member-photo {
+  overflow: hidden;
+  position: relative;
+}
+.member-photo:hover .member-img {
+  transform: scale(1.05);
+  filter: brightness(1.08);
+}
+.member-img {
+  transition: transform 0.55s ease, filter 0.3s ease;
+}
+
+/* ─── Stats ─── */
+.stat-block {
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.25rem;
+}
+
+/* ─── Section label ─── */
+.label-en {
+  font-family: var(--font-barlow-var), 'Barlow', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+}
+
+/* ─── Award dot ─── */
+.award-dot::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* ─── Cert card ─── */
+.cert-card {
+  background: #0A0A0A;
+  border: 1px solid var(--color-divider);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.cert-card:hover {
+  border-color: rgba(200, 160, 74, 0.5);
+  transform: translateY(-3px);
+}
+
+/* ─── Hero ─── */
+#hero {
+  min-height: 100vh;
+}
+
+/* ─── CTA Section ─── */
+#cta {
+  background: linear-gradient(180deg, #000 0%, #0A0808 50%, #000 100%);
+}
+
+/* ─── Section spacing ─── */
+.section-py {
+  padding-top: 96px;
+  padding-bottom: 96px;
+}
+
+@media (max-width: 768px) {
+  .section-py {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .scroll-indicator {
+    animation: none;
+  }
+  .trainer-card,
+  .trainer-card .photo-img,
+  .member-img {
+    transition: none;
+  }
+  .btn-gold,
+  .btn-outline-gold {
+    transition: none;
+  }
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #1F1F1F; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
