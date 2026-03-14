@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 export default function Footer() {
   return (
     <footer className="border-t border-divider bg-black">
@@ -6,14 +8,14 @@ export default function Footer() {
 
           {/* Logo & address */}
           <div>
-            <div className="flex items-center gap-3 mb-3">
-              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
-                <rect width="36" height="36" fill="#C8A04A" />
-                <text x="18" y="26" fontFamily="'Bebas Neue', sans-serif" fontSize="22" fill="#000" textAnchor="middle">
-                  BF
-                </text>
-              </svg>
-              <span className="font-bebas text-xl text-white tracking-widest">BLACKFIT</span>
+            <div className="mb-3">
+              <Image
+                src="/images/logo.png"
+                alt="BLACKFIT 로고"
+                width={100}
+                height={71}
+                className="invert opacity-70"
+              />
             </div>
             <p className="font-noto text-xs text-gray-600 leading-relaxed">
               경기 화성시 동탄공원로3길 6 1층<br />

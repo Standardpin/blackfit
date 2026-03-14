@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 
 const NAVER_BOOKING =
   'https://m.booking.naver.com/booking/13/bizes/849475/items/4881076?area=pll&lang=ko&theme=place'
@@ -71,27 +72,17 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#hero"
-            className="flex items-center gap-3 group"
+            className="flex items-center group"
             onClick={(e) => { handleAnchorClick(e, '#hero'); closeMenu() }}
           >
-            <div className="relative flex items-center justify-center w-9 h-9">
-              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-9 h-9">
-                <rect width="36" height="36" fill="#C8A04A" />
-                <text
-                  x="18" y="26"
-                  fontFamily="'Bebas Neue', sans-serif"
-                  fontSize="22"
-                  fill="#000"
-                  textAnchor="middle"
-                  fontWeight="400"
-                >
-                  BF
-                </text>
-              </svg>
-            </div>
-            <span className="font-bebas text-2xl text-white tracking-widest group-hover:text-gold transition-colors duration-200">
-              BLACKFIT
-            </span>
+            <Image
+              src="/images/logo.png"
+              alt="BLACKFIT 로고"
+              width={120}
+              height={85}
+              className="invert opacity-90 group-hover:opacity-100 transition-opacity duration-200"
+              priority
+            />
           </a>
 
           {/* Desktop Nav */}
