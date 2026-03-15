@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Image from 'next/image'
 
 const NAVER_BOOKING =
   'https://m.booking.naver.com/booking/13/bizes/849475/items/4881076?area=pll&lang=ko&theme=place'
@@ -72,17 +71,15 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#hero"
-            className="flex items-center group"
+            className="flex items-center"
             onClick={(e) => { handleAnchorClick(e, '#hero'); closeMenu() }}
           >
-            <Image
-              src="/images/logo.png"
-              alt="BLACKFIT 로고"
-              width={120}
-              height={85}
-              className="invert opacity-90 group-hover:opacity-100 transition-opacity duration-200"
-              priority
-            />
+            <span
+              className="font-bebas text-white leading-none tracking-widest hover:text-white/70 transition-colors"
+              style={{ fontSize: '1.25rem' }}
+            >
+              BLACKFIT
+            </span>
           </a>
 
           {/* Desktop Nav */}
@@ -92,7 +89,7 @@ export default function Navbar() {
                 key={href}
                 href={href}
                 onClick={(e) => handleAnchorClick(e, href)}
-                className="text-sm font-noto text-gray-300 hover:text-gold transition-colors duration-200 cursor-pointer"
+                className="text-xs font-barlow text-white/40 hover:text-white transition-colors duration-200 cursor-pointer uppercase tracking-widest"
               >
                 {label}
               </a>
@@ -101,9 +98,9 @@ export default function Navbar() {
               href={NAVER_BOOKING}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-gold px-5 py-2.5 text-sm font-noto tracking-wide rounded-none"
+              className="btn-outline px-5 py-2.5 text-xs font-barlow tracking-widest uppercase rounded-none"
             >
-              무료 체험 신청
+              체험 신청
             </a>
           </div>
 
@@ -123,15 +120,15 @@ export default function Navbar() {
       {/* Mobile Menu */}
       <div
         id="mobile-menu"
-        className={`lg:hidden absolute top-full left-0 right-0 bg-black border-t border-divider${menuOpen ? ' open' : ''}`}
+        className={`lg:hidden absolute top-full left-0 right-0 bg-black border-t border-white/10${menuOpen ? ' open' : ''}`}
       >
-        <div className="px-6 py-6 flex flex-col gap-5">
+        <div className="px-6 py-8 flex flex-col gap-6">
           {navLinks.map(({ href, label }) => (
             <a
               key={href}
               href={href}
               onClick={(e) => { handleAnchorClick(e, href); closeMenu() }}
-              className="text-base font-noto text-gray-200 hover:text-gold transition-colors duration-200"
+              className="text-sm font-barlow text-white/60 hover:text-white transition-colors duration-200 uppercase tracking-widest"
             >
               {label}
             </a>
@@ -140,7 +137,7 @@ export default function Navbar() {
             href={NAVER_BOOKING}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gold px-5 py-3 text-sm font-noto tracking-wide text-center"
+            className="btn-outline px-5 py-3 text-xs font-barlow tracking-widest uppercase text-center"
             onClick={closeMenu}
           >
             무료 체험 신청

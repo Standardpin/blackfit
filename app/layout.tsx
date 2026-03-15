@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, Noto_Sans_KR, Barlow } from 'next/font/google'
+import { Bebas_Neue, Barlow, DM_Serif_Display } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
 const bebas = Bebas_Neue({
@@ -9,18 +10,24 @@ const bebas = Bebas_Neue({
   display: 'swap',
 })
 
-const noto = Noto_Sans_KR({
-  weight: ['300', '400', '500', '700', '900'],
-  subsets: ['latin'],
-  variable: '--font-noto-var',
+const pretendard = localFont({
+  src: '../public/fonts/PretendardVariable.woff2',
+  variable: '--font-pretendard-var',
   display: 'swap',
-  preload: false,
+  weight: '100 900',
 })
 
 const barlow = Barlow({
   weight: ['300', '400', '500', '600', '700'],
   subsets: ['latin'],
   variable: '--font-barlow-var',
+  display: 'swap',
+})
+
+const dmSerif = DM_Serif_Display({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-dm-serif-var',
   display: 'swap',
 })
 
@@ -44,7 +51,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${bebas.variable} ${noto.variable} ${barlow.variable}`}
+      className={`${bebas.variable} ${pretendard.variable} ${barlow.variable} ${dmSerif.variable}`}
     >
       <body>{children}</body>
     </html>

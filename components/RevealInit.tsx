@@ -4,7 +4,9 @@ import { useEffect } from 'react'
 
 export default function RevealInit() {
   useEffect(() => {
-    const revealElements = document.querySelectorAll('.reveal')
+    const selector =
+      '.reveal, .reveal-slide-left, .reveal-slide-right, .reveal-scale, .reveal-skew, .reveal-fade'
+    const revealElements = document.querySelectorAll(selector)
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -15,8 +17,8 @@ export default function RevealInit() {
         })
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.12,
+        rootMargin: '0px 0px -60px 0px',
       },
     )
 

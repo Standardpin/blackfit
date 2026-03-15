@@ -1,116 +1,207 @@
+'use client'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import TrainerCard from '@/components/TrainerCard'
-import FeaturedAccordion from '@/components/FeaturedAccordion'
-import { trainers } from '@/data/trainers'
+import ZigzagTrainerRow from '@/components/ZigzagTrainerRow'
+import { trainers, TrainerData } from '@/data/trainers'
 
-const NAVER_BOOKING =
-  'https://m.booking.naver.com/booking/13/bizes/849475/items/4881076?area=pll&lang=ko&theme=place'
+function TrainerSlide({
+  trainer,
+  index,
+  isActive,
+  isReversed,
+}: {
+  trainer: TrainerData
+  index: number
+  isActive: boolean
+  isReversed: boolean
+}) {
+  const PhotoPanel = (
+    <div className="relative h-full">
+      <Image
+        src={trainer.image}
+        alt={trainer.alt}
+        fill
+        className="object-cover object-top"
+        sizes="50vw"
+        priority={index === 0}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+    </div>
+  )
 
-const headAchievements = [
-  ['제60회 세계남자 보디빌딩 선수권대회', '국가대표'],
-  ['2005년 미스터코리아 선발대회 (75kg)', '1위'],
-  ['제15회 춘계 전국 보디빌딩 선수권 (80kg)', '1위'],
-  ['경기도 도민체전', '7회 연속 1위'],
-  ['2007년 동아시아 선수권대회', '국가대표'],
-]
+  const TextPanel = (
+    <div className="flex flex-col justify-center bg-black px-8 py-14 lg:px-14 lg:py-16 h-full overflow-y-auto">
+      {/* Ghost index number */}
+      <div
+        className="font-bebas text-white/5 leading-none select-none mb-4"
+        style={{ fontSize: 'clamp(4rem, 8vw, 6rem)' }}
+      >
+        {String(index + 1).padStart(2, '0')}
+      </div>
+      {/* Role label */}
+      <div className="label-en mb-3">{trainer.role}</div>
+      {/* English name */}
+      <h3
+        className="font-bebas text-white leading-none tracking-wide mb-2"
+        style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+      >
+        {trainer.nameEn}
+      </h3>
+      {/* Korean name + title */}
+      <p className="font-noto text-white/40 text-sm mb-8">
+        {trainer.name} · {trainer.title}
+      </p>
+      <div className="line-divider mb-8" />
+      {/* Achievements */}
+      {trainer.achievements && trainer.achievements.length > 0 && (
+        <div className="mb-6">
+          <div className="label-en mb-4">주요 수상 경력</div>
+          <ul className="space-y-2">
+            {trainer.achievements.map(([desc, highlight], i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-white/60">
+                  {desc} <span className="text-white font-medium">{highlight}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      {/* Qualifications */}
+      {trainer.qualifications.length > 0 && (
+        <div>
+          {trainer.achievements && trainer.achievements.length > 0 && (
+            <div className="label-en mb-4 mt-6">자격 · 경력</div>
+          )}
+          <ul className="space-y-2">
+            {trainer.qualifications.map((q, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-white/60">{q}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <div
+      className={`trainer-slide${isActive ? ' active' : ''}`}
+      aria-hidden={!isActive}
+      tabIndex={isActive ? undefined : -1}
+    >
+      <div className={`h-full grid grid-cols-2 gap-0`}>
+        {isReversed ? (
+          <>
+            <div className="relative overflow-hidden">{TextPanel}</div>
+            <div className="relative overflow-hidden">{PhotoPanel}</div>
+          </>
+        ) : (
+          <>
+            <div className="relative overflow-hidden">{PhotoPanel}</div>
+            <div className="relative overflow-hidden">{TextPanel}</div>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ProgressDots({ activeIndex, total }: { activeIndex: number; total: number }) {
+  return (
+    <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10">
+      <span
+        className="font-barlow text-xs text-white/60 mb-1"
+        style={{ fontVariantNumeric: 'tabular-nums' }}
+      >
+        {String(activeIndex + 1).padStart(2, '0')}
+      </span>
+      {Array.from({ length: total }).map((_, i) => (
+        <div
+          key={i}
+          className={`trainer-progress-dot${activeIndex === i ? ' active' : ''}`}
+        />
+      ))}
+    </div>
+  )
+}
 
 export default function Trainers() {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const stickyRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const section = stickyRef.current
+    if (!section) return
+
+    let rafId: number
+    const handleScroll = () => {
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        const rect = section.getBoundingClientRect()
+        const sectionHeight = section.offsetHeight
+        const viewportHeight = window.innerHeight
+        const scrollable = sectionHeight - viewportHeight
+        if (scrollable <= 0) { setActiveIndex(0); return }
+        const progress = Math.max(0, Math.min(1, -rect.top / scrollable))
+        const newIndex = Math.min(Math.floor(progress * trainers.length), trainers.length - 1)
+        setActiveIndex(newIndex)
+      })
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      cancelAnimationFrame(rafId)
+    }
+  }, [])
+
   return (
-    <section id="trainers" className="section-py" style={{ background: '#050505' }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="trainers" className="bg-black">
+      {/* Header - outside sticky zone */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-[100px] pb-16">
+        <div className="label-en mb-4">Our Trainers</div>
+        <h2
+          className="font-bebas text-white leading-none tracking-wide"
+          style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+        >
+          TRAINERS
+        </h2>
+      </div>
 
-        {/* Header */}
-        <div className="mb-16 reveal">
-          <div className="label-en mb-4">Our Trainers</div>
-          <h2 className="font-bebas text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide">
-            TRAINER<br />
-            <span className="text-gold-gradient">소개</span>
-          </h2>
-        </div>
-
-        {/* Featured Trainer — 신형영 대표 */}
-        <div className="card-dark mb-6 reveal reveal-d1">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-
-            {/* Photo */}
-            <div className="relative overflow-hidden" style={{ minHeight: '380px', maxHeight: '520px' }}>
-              <Image
-                src="/images/trainers/shin.jpg"
-                alt="신형영 대표 - 보디빌딩 전 국가대표"
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
-            </div>
-
-            {/* Info */}
-            <div className="p-8 lg:p-12 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-3">
-                <span className="label-en">Head Trainer</span>
-                <div className="flex-1 gold-line" />
-              </div>
-              <h3 className="font-noto text-3xl font-bold text-white mb-1">신형영</h3>
-              <p className="font-barlow text-gold text-base tracking-widest uppercase font-semibold mb-6">
-                보디빌딩 전 국가대표
-              </p>
-
-              <div className="mb-6">
-                <div className="font-noto text-xs text-gray-500 uppercase tracking-widest mb-3">
-                  주요 수상 경력
-                </div>
-                <ul className="space-y-1.5">
-                  {headAchievements.map(([desc, highlight], i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-gold mt-0.5 flex-shrink-0">▸</span>
-                      <span className="font-noto text-sm text-gray-300">
-                        {desc} <span className="text-white">{highlight}</span>
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <FeaturedAccordion />
-            </div>
-          </div>
-        </div>
-
-        {/* Grid: 5 trainers + CTA card */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Desktop: Sticky scroll (md+) */}
+      <div
+        className="hidden md:block"
+        ref={stickyRef}
+        style={{ height: `${trainers.length * 100}vh` }}
+      >
+        <div className="sticky top-0 h-screen relative overflow-hidden">
           {trainers.map((trainer, i) => (
-            <TrainerCard
+            <TrainerSlide
               key={trainer.id}
               trainer={trainer}
-              revealDelay={((i % 3) + 1) as 1 | 2 | 3}
+              index={i}
+              isActive={activeIndex === i}
+              isReversed={i % 2 !== 0}
             />
           ))}
-
-          {/* CTA card */}
-          <div className="card-dark flex flex-col items-center justify-center p-8 text-center reveal reveal-d3 min-h-[420px]">
-            <div className="w-14 h-14 border border-gold/40 flex items-center justify-center mb-5">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C8A04A" strokeWidth="1.5">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </div>
-            <h4 className="font-noto text-base font-semibold text-white mb-2">
-              당신의 트레이너를 만나보세요
-            </h4>
-            <p className="font-noto text-xs text-gray-500 leading-relaxed mb-6">
-              전문 트레이너와 1:1 상담을 통해<br />나에게 맞는 프로그램을 찾아보세요
-            </p>
-            <a
-              href={NAVER_BOOKING}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gold px-6 py-2.5 font-noto text-sm"
-            >
-              무료 체험 신청
-            </a>
-          </div>
+          <ProgressDots activeIndex={activeIndex} total={trainers.length} />
         </div>
+      </div>
 
+      {/* Mobile: Original zigzag scroll (<md) */}
+      <div className="md:hidden border-b border-white/5">
+        {trainers.map((trainer, i) => (
+          <ZigzagTrainerRow
+            key={trainer.id}
+            trainer={trainer}
+            index={i}
+            isReversed={i % 2 !== 0}
+          />
+        ))}
       </div>
     </section>
   )

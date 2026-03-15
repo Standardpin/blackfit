@@ -8,20 +8,30 @@ const members = Array.from({ length: 10 }, (_, i) => ({
 
 export default function Members() {
   return (
-    <section id="members" className="section-py" style={{ background: '#050505' }}>
+    <section id="members" style={{ paddingTop: '100px', paddingBottom: '80px', background: '#000' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Header */}
-        <div className="mb-12 reveal">
-          <div className="label-en mb-4">Member Gallery</div>
-          <h2 className="font-bebas text-[clamp(2.5rem,6vw,4.5rem)] leading-none tracking-wide">
-            MEMBERS<br />
-            <span className="text-gold-gradient">블랙핏이 만든 변화</span>
-          </h2>
+        <div className="flex items-end justify-between mb-12 reveal">
+          <div>
+            <div className="label-en mb-3">Our Members</div>
+            <h2
+              className="font-bebas text-white leading-none tracking-wide"
+              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+            >
+              블랙핏이 만든 변화
+            </h2>
+          </div>
+          <div
+            className="font-bebas text-white/5 leading-none select-none pb-1"
+            style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}
+          >
+            10+
+          </div>
         </div>
 
         {/* Photo Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1">
           {members.map((member) => (
             <div
               key={member.src}
