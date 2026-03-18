@@ -8,41 +8,41 @@ const members = Array.from({ length: 10 }, (_, i) => ({
 
 export default function Members() {
   return (
-    <section id="members" style={{ paddingTop: '100px', paddingBottom: '80px', background: '#000' }}>
+    <section id="members" style={{ paddingTop: '100px', paddingBottom: '80px', background: '#FFF' }}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
 
         {/* Header */}
-        <div className="flex items-end justify-between mb-12 reveal">
+        <div className="flex items-end justify-between mb-12 reveal border-t border-black/10 pt-10">
           <div>
-            <div className="label-en mb-3">Our Members</div>
+            <div className="label-en mb-3 text-black font-bold">Our Members</div>
             <h2
-              className="font-bebas text-white leading-none tracking-wide"
-              style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+              className="font-bebas text-black leading-[0.85] tracking-tighter"
+              style={{ fontSize: 'clamp(3rem, 6vw, 5rem)' }}
             >
-              블랙핏이 만든 변화
+              블랙핏이 만든 변화.
             </h2>
           </div>
           <div
-            className="font-bebas text-white/5 leading-none select-none pb-1"
-            style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)' }}
+            className="font-bebas text-black/10 leading-[0.8] select-none pb-1 tracking-tighter"
+            style={{ fontSize: 'clamp(4rem, 8vw, 6rem)' }}
           >
             10+
           </div>
         </div>
 
         {/* Photo Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1 bg-black/5">
           {members.map((member) => (
             <div
               key={member.src}
-              className={`member-photo reveal reveal-d${member.delay}`}
+              className={`member-photo reveal reveal-d${member.delay} bg-white`}
               style={{ aspectRatio: '3/4' }}
             >
               <Image
                 src={member.src}
                 alt={member.alt}
                 fill
-                className="member-img object-cover"
+                className="member-img object-cover grayscale hover:grayscale-0 transition-all duration-700"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
                 loading="lazy"
               />

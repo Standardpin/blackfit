@@ -1,58 +1,221 @@
+'use client'
+
+import { useLayoutEffect, useRef } from 'react'
 import Image from 'next/image'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { SplitText } from 'gsap/SplitText'
+
+gsap.registerPlugin(ScrollTrigger, SplitText)
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'power3.out' },
+      })
+
+      // Phase 0: Set initial states
+      gsap.set('.hero-line', { scaleX: 0 })
+      gsap.set('.hero-image-wrap', { clipPath: 'inset(50% 0 50% 0)' })
+      gsap.set('.hero-subtitle', { opacity: 0, y: 20 })
+      gsap.set('.hero-scroll', { opacity: 0 })
+      gsap.set('.hero-badge', { opacity: 0, y: 10 })
+
+      // Phase 1: Horizontal line draws across
+      tl.to('.hero-line', {
+        scaleX: 1,
+        duration: 0.8,
+        ease: 'power2.inOut',
+      })
+
+      // Phase 2: Image clips open vertically from the line
+      .to('.hero-image-wrap', {
+        clipPath: 'inset(0% 0 0% 0)',
+        duration: 1.2,
+        ease: 'power4.inOut',
+      }, '-=0.3')
+
+      // Phase 2.5: Line fades out
+      .to('.hero-line', {
+        opacity: 0,
+        duration: 0.4,
+      }, '-=0.6')
+
+      // Phase 3: "BLACK" text reveals — chars from below
+      const blackEl = containerRef.current?.querySelector('.hero-black')
+      if (blackEl) {
+        const splitBlack = new SplitText(blackEl, {
+          type: 'chars',
+          charsClass: 'split-char',
+        })
+        tl.from(splitBlack.chars, {
+          y: '120%',
+          opacity: 0,
+          stagger: 0.04,
+          duration: 0.8,
+          ease: 'back.out(1.2)',
+        }, '-=0.7')
+      }
+
+      // Phase 4: "FIT" text reveals — chars from below
+      const fitEl = containerRef.current?.querySelector('.hero-fit')
+      if (fitEl) {
+        const splitFit = new SplitText(fitEl, {
+          type: 'chars',
+          charsClass: 'split-char',
+        })
+        tl.from(splitFit.chars, {
+          y: '120%',
+          opacity: 0,
+          stagger: 0.05,
+          duration: 0.7,
+          ease: 'back.out(1.2)',
+        }, '-=0.5')
+      }
+
+      // Phase 5: Subtitle fades in
+      tl.to('.hero-subtitle', {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+      }, '-=0.3')
+
+      // Phase 5.5: Badge
+      .to('.hero-badge', {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+      }, '-=0.3')
+
+      // Phase 6: Scroll indicator
+      .to('.hero-scroll', {
+        opacity: 1,
+        duration: 0.4,
+      }, '-=0.2')
+
+      // Scroll-driven parallax
+      gsap.to('.hero-image-wrap', {
+        yPercent: -15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      gsap.to('.hero-text-block', {
+        yPercent: -30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+
+      // Fade out on scroll
+      gsap.to('.hero-content', {
+        opacity: 0,
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: '60% top',
+          end: 'bottom top',
+          scrub: true,
+        },
+      })
+    }, containerRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <section
       id="hero"
-      className="relative flex flex-col items-start justify-end min-h-screen bg-black overflow-hidden"
+      ref={containerRef}
+      className="relative flex flex-col items-start justify-end min-h-screen bg-white overflow-hidden"
     >
-      {/* Background photo */}
-      <Image
-        src="/images/hero/gym-interior.jpg"
-        alt="블랙핏 센터 내부"
-        fill
-        priority
-        className="object-cover object-center"
-        sizes="100vw"
-        quality={85}
+      {/* Horizontal reveal line */}
+      <div
+        className="hero-line absolute top-1/2 left-0 w-full h-px bg-black/20 z-20 origin-left"
       />
-      {/* Dark overlays */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60 z-[1]" />
-      <div className="absolute inset-0 bg-black/30 z-[1]" />
 
-      {/* Content — bottom left aligned */}
-      <div className="relative z-10 w-full px-8 lg:px-16 pb-20 pt-32">
-        {/* Split typography */}
-        <div className="overflow-hidden mb-1">
-          <h1
-            className="font-bebas leading-none text-white block"
-            style={{ fontSize: 'clamp(5rem, 16vw, 13rem)', letterSpacing: '0.05em' }}
-          >
-            BLACK
-          </h1>
+      {/* Hero content wrapper for fade */}
+      <div className="hero-content absolute inset-0">
+        {/* Background image with clip-path reveal */}
+        <div className="hero-image-wrap absolute top-0 right-0 w-full md:w-[70%] h-[65vh] md:h-screen z-[1]">
+          <Image
+            src="/images/hero/gym-interior.jpg"
+            alt="블랙핏 센터 내부"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+            quality={90}
+          />
+          {/* Gradient overlays for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-white/30" />
         </div>
-        <div className="overflow-hidden flex items-baseline gap-8 lg:gap-16">
-          <h1
-            className="font-bebas leading-none text-white"
-            style={{ fontSize: 'clamp(5rem, 16vw, 13rem)', letterSpacing: '0.05em', marginLeft: 'clamp(2rem, 8vw, 8rem)' }}
-          >
-            FIT
-          </h1>
-          <p
-            className="font-barlow text-white/60 uppercase tracking-widest self-end pb-3 hidden sm:block"
-            style={{ fontSize: 'clamp(0.65rem, 1vw, 0.8rem)', letterSpacing: '0.25em' }}
-          >
-            동탄 프리미엄 퍼스널 트레이닝
-          </p>
+
+        {/* NSCA badge — top right */}
+        <div className="hero-badge absolute top-24 md:top-32 right-8 lg:right-16 z-10">
+          <div className="flex flex-col items-end gap-1">
+            <span className="font-barlow text-[9px] md:text-[10px] tracking-[0.3em] text-black/40 uppercase">
+              NSCA + NASM Certified
+            </span>
+            <span className="font-barlow text-[9px] md:text-[10px] tracking-[0.2em] text-black/30 uppercase">
+              전국 단 3곳
+            </span>
+          </div>
+        </div>
+
+        {/* Main typography — positioned at bottom */}
+        <div className="hero-text-block relative z-10 w-full px-8 lg:px-16 pb-20 pt-32 flex flex-col justify-end min-h-screen">
+          {/* "BLACK" */}
+          <div className="overflow-hidden mb-[-2vw]">
+            <h1
+              className="hero-black font-bebas leading-[0.85] text-black tracking-tighter"
+              style={{ fontSize: 'clamp(6rem, 20vw, 18rem)' }}
+            >
+              BLACK
+            </h1>
+          </div>
+
+          {/* "FIT" + subtitle */}
+          <div className="overflow-hidden flex flex-col md:flex-row md:items-baseline gap-4 md:gap-16">
+            <h1
+              className="hero-fit font-bebas leading-[0.85] text-black tracking-tighter"
+              style={{
+                fontSize: 'clamp(6rem, 20vw, 18rem)',
+                marginLeft: 'clamp(1rem, 15vw, 15rem)',
+              }}
+            >
+              FIT
+            </h1>
+            <p
+              className="hero-subtitle font-barlow text-black/50 uppercase font-semibold tracking-[0.3em] md:pb-[3vw] z-20"
+              style={{ fontSize: 'clamp(0.6rem, 0.9vw, 0.75rem)' }}
+            >
+              동탄 프리미엄 퍼스널 트레이닝
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator — bottom right */}
-      <div className="absolute bottom-10 right-10 scroll-indicator z-10">
-        <svg width="20" height="32" viewBox="0 0 20 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="18" height="30" rx="9" stroke="rgba(255,255,255,0.3)" strokeWidth="1.5" />
-          <rect x="8.5" y="6" width="3" height="7" rx="1.5" fill="rgba(255,255,255,0.6)" />
-        </svg>
+      <div className="hero-scroll absolute bottom-10 right-10 z-10 flex flex-col items-center gap-2">
+        <span className="font-barlow text-[9px] tracking-[0.3em] text-black/30 uppercase">
+          Scroll
+        </span>
+        <div className="w-px h-8 bg-black/20 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-full bg-black/60 animate-scroll-line" />
+        </div>
       </div>
     </section>
   )

@@ -1,30 +1,29 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-black">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-
-          {/* Logo text */}
-          <div>
-            <div
-              className="font-bebas text-white leading-none tracking-widest mb-3"
-              style={{ fontSize: '1.5rem' }}
-            >
-              BLACKFIT
-            </div>
-            <p className="font-noto text-xs text-white/20 leading-relaxed">
+    <footer className="bg-white pt-20 overflow-hidden border-t border-black/5">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
+        
+        {/* Top Info Section */}
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-8 mb-16 relative z-10">
+          
+          <div className="flex flex-col gap-2">
+            <p className="font-noto text-xs md:text-sm text-black/60 font-medium">
               경기 화성시 동탄공원로3길 6 1층<br />
               010-8285-8753
+            </p>
+            <p className="font-noto text-xs text-black/40 mt-2 tracking-widest uppercase">
+              동탄 프리미엄 퍼스널 트레이닝 센터<br />
+              © 2025 BLACKFIT. All rights reserved.
             </p>
           </div>
 
           {/* Social links */}
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8">
             <a
               href="https://blog.naver.com/blackfit_"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 font-barlow text-xs text-white/30 hover:text-white transition-colors cursor-pointer uppercase tracking-widest"
+              className="font-barlow text-sm font-bold text-black border-b border-transparent hover:border-black transition-colors cursor-pointer uppercase tracking-widest"
             >
               Blog
             </a>
@@ -32,7 +31,7 @@ export default function Footer() {
               href="https://www.instagram.com/blackfit_"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 font-barlow text-xs text-white/30 hover:text-white transition-colors cursor-pointer uppercase tracking-widest"
+              className="font-barlow text-sm font-bold text-black border-b border-transparent hover:border-black transition-colors cursor-pointer uppercase tracking-widest"
             >
               Instagram
             </a>
@@ -40,17 +39,31 @@ export default function Footer() {
               href="https://naver.me/5N1Xfsog"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 font-barlow text-xs text-white/30 hover:text-white transition-colors cursor-pointer uppercase tracking-widest"
+              className="font-barlow text-sm font-bold text-black border-b border-transparent hover:border-black transition-colors cursor-pointer uppercase tracking-widest"
             >
               Naver Map
             </a>
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-8 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="font-noto text-xs text-white/15">© 2025 BLACKFIT. All rights reserved.</p>
-          <p className="font-noto text-xs text-white/15">동탄 프리미엄 퍼스널 트레이닝 센터</p>
+        {/* Massive Typography matching Hero */}
+        <div className="relative mix-blend-differenceX z-0 w-full overflow-hidden flex flex-col pt-10 border-t border-black/10">
+          <div className="flex flex-col w-full">
+            <h1
+              className="font-bebas leading-[0.8] text-black tracking-tighter"
+              style={{ fontSize: 'clamp(5rem, 18vw, 18rem)' }}
+            >
+              BLACK
+            </h1>
+            <h1
+              className="font-bebas leading-[0.8] text-black tracking-tighter text-right -mt-[2vw]"
+              style={{ fontSize: 'clamp(5rem, 18vw, 18rem)' }}
+            >
+              FIT
+            </h1>
+          </div>
         </div>
+
       </div>
     </footer>
   )

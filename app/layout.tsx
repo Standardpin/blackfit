@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Bebas_Neue, Barlow, DM_Serif_Display } from 'next/font/google'
 import localFont from 'next/font/local'
+import { SmoothScrollProvider } from './providers'
 import './globals.css'
 
 const bebas = Bebas_Neue({
@@ -53,7 +54,9 @@ export default function RootLayout({
       lang="ko"
       className={`${bebas.variable} ${pretendard.variable} ${barlow.variable} ${dmSerif.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <SmoothScrollProvider>{children}</SmoothScrollProvider>
+      </body>
     </html>
   )
 }

@@ -25,43 +25,42 @@ function TrainerSlide({
         sizes="50vw"
         priority={index === 0}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
     </div>
   )
 
   const TextPanel = (
-    <div className="flex flex-col justify-center bg-black px-8 py-14 lg:px-14 lg:py-16 h-full overflow-y-auto">
+    <div className="flex flex-col justify-center bg-white px-8 py-14 lg:px-14 lg:py-16 h-full overflow-y-auto mix-blend-multiplyX border-r border-black/5">
       {/* Ghost index number */}
       <div
-        className="font-bebas text-white/5 leading-none select-none mb-4"
+        className="font-bebas text-black/5 leading-none select-none mb-4 tracking-tighter"
         style={{ fontSize: 'clamp(4rem, 8vw, 6rem)' }}
       >
         {String(index + 1).padStart(2, '0')}
       </div>
       {/* Role label */}
-      <div className="label-en mb-3">{trainer.role}</div>
+      <div className="label-en mb-3 text-black font-bold">{trainer.role}</div>
       {/* English name */}
       <h3
-        className="font-bebas text-white leading-none tracking-wide mb-2"
-        style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+        className="font-bebas text-black leading-[0.85] tracking-tight mb-2"
+        style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}
       >
         {trainer.nameEn}
       </h3>
       {/* Korean name + title */}
-      <p className="font-noto text-white/40 text-sm mb-8">
+      <p className="font-noto text-black/60 text-sm md:text-base font-bold mb-8">
         {trainer.name} · {trainer.title}
       </p>
       <div className="line-divider mb-8" />
       {/* Achievements */}
       {trainer.achievements && trainer.achievements.length > 0 && (
         <div className="mb-6">
-          <div className="label-en mb-4">주요 수상 경력</div>
-          <ul className="space-y-2">
+          <div className="label-en mb-4 text-black font-bold">주요 수상 경력</div>
+          <ul className="space-y-3">
             {trainer.achievements.map(([desc, highlight], i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
-                <span className="font-noto text-sm text-white/60">
-                  {desc} <span className="text-white font-medium">{highlight}</span>
+              <li key={i} className="flex items-start gap-3">
+                <span className="text-black/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-black/70">
+                  {desc} <span className="text-black font-extrabold">{highlight}</span>
                 </span>
               </li>
             ))}
@@ -72,13 +71,13 @@ function TrainerSlide({
       {trainer.qualifications.length > 0 && (
         <div>
           {trainer.achievements && trainer.achievements.length > 0 && (
-            <div className="label-en mb-4 mt-6">자격 · 경력</div>
+            <div className="label-en mb-4 mt-8 text-black font-bold">자격 · 경력</div>
           )}
           <ul className="space-y-2">
             {trainer.qualifications.map((q, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
-                <span className="font-noto text-sm text-white/60">{q}</span>
+              <li key={i} className="flex items-start gap-3">
+                <span className="text-black/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-black/70 font-medium">{q}</span>
               </li>
             ))}
           </ul>
@@ -93,7 +92,7 @@ function TrainerSlide({
       aria-hidden={!isActive}
       tabIndex={isActive ? undefined : -1}
     >
-      <div className={`h-full grid grid-cols-2 gap-0`}>
+      <div className={`h-full grid grid-cols-2 gap-0 bg-white`}>
         {isReversed ? (
           <>
             <div className="relative overflow-hidden">{TextPanel}</div>
@@ -112,7 +111,7 @@ function TrainerSlide({
 
 function ProgressDots({ activeIndex, total }: { activeIndex: number; total: number }) {
   return (
-    <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10">
+    <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2 z-10 mix-blend-difference">
       <span
         className="font-barlow text-xs text-white/60 mb-1"
         style={{ fontVariantNumeric: 'tabular-nums' }}
@@ -123,6 +122,7 @@ function ProgressDots({ activeIndex, total }: { activeIndex: number; total: numb
         <div
           key={i}
           className={`trainer-progress-dot${activeIndex === i ? ' active' : ''}`}
+          style={{ background: activeIndex === i ? '#FFF' : 'rgba(255,255,255,0.3)' }}
         />
       ))}
     </div>
@@ -160,25 +160,25 @@ export default function Trainers() {
   }, [])
 
   return (
-    <section id="trainers" className="bg-black">
+    <section id="trainers" className="bg-white">
       {/* Header - outside sticky zone */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-[100px] pb-16">
-        <div className="label-en mb-4">Our Trainers</div>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-[120px] pb-16">
+        <div className="label-en mb-4 text-black">Our Trainers</div>
         <h2
-          className="font-bebas text-white leading-none tracking-wide"
-          style={{ fontSize: 'clamp(2.5rem, 6vw, 4.5rem)' }}
+          className="font-bebas text-black leading-[0.85] tracking-tighter"
+          style={{ fontSize: 'clamp(4rem, 8vw, 6.5rem)' }}
         >
-          TRAINERS
+          TRAINERS.
         </h2>
       </div>
 
       {/* Desktop: Sticky scroll (md+) */}
       <div
-        className="hidden md:block"
+        className="hidden md:block border-y border-black/10"
         ref={stickyRef}
         style={{ height: `${trainers.length * 100}vh` }}
       >
-        <div className="sticky top-0 h-screen relative overflow-hidden">
+        <div className="sticky top-0 h-screen relative overflow-hidden bg-white">
           {trainers.map((trainer, i) => (
             <TrainerSlide
               key={trainer.id}
@@ -193,7 +193,7 @@ export default function Trainers() {
       </div>
 
       {/* Mobile: Original zigzag scroll (<md) */}
-      <div className="md:hidden border-b border-white/5">
+      <div className="md:hidden border-b border-black/10">
         {trainers.map((trainer, i) => (
           <ZigzagTrainerRow
             key={trainer.id}

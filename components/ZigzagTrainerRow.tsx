@@ -21,33 +21,32 @@ export default function ZigzagTrainerRow({ trainer, index, isReversed }: Props) 
         sizes="(max-width: 768px) 100vw, 50vw"
         priority={index === 0}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
     </div>
   )
 
   const TextBlock = (
-    <div className="zigzag-text bg-black px-8 py-14 lg:px-14 lg:py-16 reveal reveal-d1">
+    <div className="zigzag-text bg-white px-8 py-14 lg:px-14 lg:py-16 reveal reveal-d1">
       {/* Index number */}
       <div
-        className="font-bebas text-white/5 leading-none select-none mb-4"
+        className="font-bebas text-black/5 leading-none select-none mb-4 tracking-tighter"
         style={{ fontSize: 'clamp(4rem, 8vw, 6rem)' }}
       >
         {String(index + 1).padStart(2, '0')}
       </div>
 
       {/* Role label */}
-      <div className="label-en mb-3">{trainer.role}</div>
+      <div className="label-en mb-3 text-black font-bold">{trainer.role}</div>
 
       {/* English name */}
       <h3
-        className="font-bebas text-white leading-none tracking-wide mb-2"
-        style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+        className="font-bebas text-black leading-[0.85] tracking-tight mb-2"
+        style={{ fontSize: 'clamp(2.5rem, 4vw, 3rem)' }}
       >
         {trainer.nameEn}
       </h3>
 
       {/* Korean name + title */}
-      <p className="font-noto text-white/40 text-sm mb-8">
+      <p className="font-noto text-black/60 text-sm font-bold mb-8">
         {trainer.name} · {trainer.title}
       </p>
 
@@ -57,14 +56,14 @@ export default function ZigzagTrainerRow({ trainer, index, isReversed }: Props) 
       {/* Achievements (Shin only) */}
       {trainer.achievements && trainer.achievements.length > 0 && (
         <div className="mb-6">
-          <div className="label-en mb-4">주요 수상 경력</div>
-          <ul className="space-y-2">
+          <div className="label-en mb-4 text-black font-bold">주요 수상 경력</div>
+          <ul className="space-y-3">
             {trainer.achievements.map(([desc, highlight], i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
-                <span className="font-noto text-sm text-white/60">
+              <li key={i} className="flex items-start gap-3">
+                <span className="text-black/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-black/70">
                   {desc}{' '}
-                  <span className="text-white font-medium">{highlight}</span>
+                  <span className="text-black font-extrabold">{highlight}</span>
                 </span>
               </li>
             ))}
@@ -76,13 +75,13 @@ export default function ZigzagTrainerRow({ trainer, index, isReversed }: Props) 
       {trainer.qualifications.length > 0 && (
         <div>
           {trainer.achievements && trainer.achievements.length > 0 && (
-            <div className="label-en mb-4 mt-6">자격 · 경력</div>
+            <div className="label-en mb-4 mt-8 text-black font-bold">자격 · 경력</div>
           )}
           <ul className="space-y-2">
             {trainer.qualifications.map((q, i) => (
-              <li key={i} className="flex items-start gap-2">
-                <span className="text-white/20 mt-0.5 flex-shrink-0 text-xs">—</span>
-                <span className="font-noto text-sm text-white/60">{q}</span>
+              <li key={i} className="flex items-start gap-3">
+                <span className="text-black/20 mt-0.5 flex-shrink-0 text-xs">—</span>
+                <span className="font-noto text-sm text-black/70 font-medium">{q}</span>
               </li>
             ))}
           </ul>
@@ -92,7 +91,7 @@ export default function ZigzagTrainerRow({ trainer, index, isReversed }: Props) 
   )
 
   return (
-    <div className="zigzag-row border-t border-white/5">
+    <div className="zigzag-row border-t border-black/10">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
         {isReversed ? (
           <>
