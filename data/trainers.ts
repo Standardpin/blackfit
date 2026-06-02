@@ -106,7 +106,6 @@ export const trainers: TrainerData[] = [
     title: '트레이너',
     role: 'Trainer',
     qualifications: [
-      'Nasm cpt 미국공인 퍼스널 트레이너',
       '대한근육학협회 기능해부학 · 재활 과정',
       'AKF Kettlebell Academy',
       '피트니스스타 보디빌딩 Top 5',
