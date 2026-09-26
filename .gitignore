@@ -15,7 +15,6 @@
 /build
 
 # misc
-.DS_Store
 *.pem
 
 # debug
@@ -42,3 +41,13 @@ source_of_landingpage/
 index.html
 assets/
 .vercel
+.claude/settings.json
+
+# sp-common-ignore:start v=1.0.1 sha256=9e683402a5220049804457858ee6f0071b3c889e14143dade105882ec92d9ab2
+# Standardpin 공통(sp-kit 관리, 원본 hq/kit/common/sp-common-ignore.gitignore). 이 레포만의 줄은 블록 밖에
+.DS_Store
+.claude/settings.local.json
+.local-artifacts/
+.agents/worktrees/
+.claude/worktrees/
+# sp-common-ignore:end
