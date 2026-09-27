@@ -14,7 +14,7 @@
 - 계획(`plans/`)이 끝나면(done·cancelled) 계속 유효한 결정·사실·남은 일을 담당 문서로 옮기고 계획을 지운다. 보관 폴더를 두지 않는다(기록은 git 이력): 지우기 전에 최종 내용을 커밋하고, 지운 계획을 가리키는 링크는 같은 변경에서 고친다.
 <!-- sp-common:end -->
 
-배포: 확인 안 됨. `.vercel/project.json`은 Vercel 프로젝트 `blackpit`을 가리키지만 Vercel 배포 기록은 2026-03-14(`ac60e9f`)에서 멈췄다. 확인 전까지 `main` push를 운영 반영으로 본다.
+배포: 없음. `.vercel/project.json`의 Vercel 프로젝트 `blackpit`은 Vercel에 없다(2026-09-27 API 404). `blackfit.kr`·`www.blackfit.kr`·`blackpit.vercel.app`은 blackpitv2 레포의 Vercel 프로젝트가 서빙하므로 이 레포의 `main` push는 운영에 영향이 없다.
 
 ## 명령
 
