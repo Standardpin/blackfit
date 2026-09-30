@@ -1,20 +1,14 @@
 # 진행 상황
 
 ## 지금
-- origin은 `Standardpin/blackfit`이다(폴더 이름과 다르다).
-- 마지막 커밋 `6088a4e`(2026-06-02)는 NASM 자격 추가를 되돌린 커밋이다.
+- 휴면 레포. 배포 대상이 없다(`blackfit.kr`은 blackpitv2가 서빙). GitHub 원격 `Standardpin/blackfit`은 2026-09-30 보관(archive)되어 읽기 전용이다.
 
-## 다음 할 일
-- 기록 없음.
+## 다음
+- 없음.
 
 ## 막힌 것
 - 없음.
 
-## 안 된 시도
-- 기록 없음.
-
 ## 함정
-- Vercel 자동 배포가 아직 연결돼 있는지 확인하지 못했다. 확인하기 전에는 `main` push를 운영 반영으로 다룬다.
-
-## 최근 세션
-- 2026-09-26 레포 모양 통일: AGENTS에 sp-common 블록과 배포 줄을 넣고, PROGRESS와 `.gitignore` 블록을 추가했다.
+- origin은 `Standardpin/blackfit`이다(폴더 이름과 다르다).
+- 운영 사이트 수정은 이 레포가 아니라 blackpitv2 레포에서 한다.
